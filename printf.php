@@ -20,6 +20,6 @@ $n = 32.123;
 printf("%.2f", $n);
 echo "\n";
 
-$num = 123;
+$num = 123.156;
 
-printf("%03d \n", $num);
+printf("%07.2f \n", $num);
