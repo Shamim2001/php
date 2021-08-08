@@ -1,5 +1,5 @@
 <?php
-
+/*
 // utility function / array_walk / array_map / array_filter
 
 $numbers = array(1,2,3,4,5,6,7,8,9,12);
@@ -44,3 +44,20 @@ function filterByS($name) {
 }
 $filterNewPersons = array_filter($persons, 'filterByS');
 print_r($filterNewPersons);
+
+*/
+
+// Utility array / array reduce
+
+
+$numbers = array(1,2,3,4,5,6,7,8,9,12);
+
+function sum($oldValue, $newValue) {
+    if ($newValue % 2 == 1) {
+        return $oldValue + $newValue;
+    }
+    return $oldValue;
+}
+
+$reduceArray = array_reduce($numbers, 'sum');
+echo $reduceArray;
