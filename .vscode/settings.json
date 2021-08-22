@@ -1,4 +1,6 @@
 {
     "files.autoSave": "afterDelay",
-    "editor.fontFamily": "Fira code"
+    "editor.fontFamily": "Fira code",
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.saveFileBeforeRun": true
 }
