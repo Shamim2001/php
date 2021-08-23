@@ -24,3 +24,7 @@ while ($parts3 !== false) {
     echo PHP_EOL;
     $parts3 = strtok(" ");
 }
+echo PHP_EOL;
+
+$parts4 = preg_split("/ |,/",$string);
+print_r($parts4);
