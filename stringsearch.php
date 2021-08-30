@@ -16,8 +16,8 @@ echo PHP_EOL;
 
 // =========string search string=========
 
-$string = "My name is Samim SHAMIM Ahmed";
+$string = "My name is Sami SHAMIM Ahmed";
 
-$replacedString = str_replace('Samim', 'Shamim', $string); // Samim replace Shamim
+$replacedString = str_ireplace('sami', 'Shamim', $string); // Samim replace Shamim
 
 echo $replacedString;
