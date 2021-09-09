@@ -94,3 +94,42 @@ function addStudent($fname, $lname, $roll) {
     return false;
 
 }
+
+// edit form function
+function getStudent($id) {
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
+    foreach ($students as $student) {
+        if ($student['id'] == $id ) {
+            return $student;
+        }    
+    }
+    return false;
+}
+
+// update function create
+function updateStudent($id, $fname, $lname, $roll) {
+    $found = false;
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
+    foreach ($students as $_student) {
+        if ($_student['roll'] == $roll && $_student['id'] != $id ) {
+            $found = true;
+            break;
+        }
+    }
+    if (!$found) {
+        $students[$id -1 ]['fname'] = $fname;
+        $students[$id -1 ]['lname'] = $lname;
+        $students[$id -1 ]['roll'] = $roll;
+        $serializedData = serialize($students);
+        file_put_contents(DB_NAME, $serializedData, LOCK_EX);
+        return true;
+    }
+    return false;
+}
+
+// delete student function code 
+function deleteStudent($id) {
+
+}

@@ -3,25 +3,50 @@
     $info = '';
     $task = $_GET['task'] ?? 'report';
     $error = $_GET['error'] ?? '0';
+
+    // delete student code  
+    if ('delete'==$task) {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+        if ($id > 0) {
+            deleteStudent($id);
+        }
+    }
+
     if ('seed'== $task) {
         seed();
         $info = "Seeding is Complite";
     }
-
+    $fname = '';
+    $lname ='';
+    $roll ='';
     if ( isset($_POST['submit'])) {
-        $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_EMAIL);
-        $lname = filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_EMAIL);
-        $roll = filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_EMAIL);
+        $fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
+        $lname = filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_STRING);
+        $roll = filter_input(INPUT_POST, 'roll', FILTER_SANITIZE_STRING);
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
 
-        if ($fname !='' && $lname !='' && $roll !='') {
-            $result = addStudent($fname, $lname, $roll);
-            if ($result) {
-                header('location:index.php?task=report');
-            } else {
-                header('location:index.php?task=report&error=1');
+        if ($id) {
+            // update the Existing student
+            if ($fname !='' && $lname !='' && $roll !='') {
+               $result = updateStudent($id, $fname, $lname, $roll);
+               if ($result) {
+                    header('location:index.php?task=report');
+                } else {
+                    $error=1;
+                }
             }
-            
-        }
+
+        } else {
+            // new student add 
+            if ($fname !='' && $lname !='' && $roll !='') {
+                $result = addStudent($fname, $lname, $roll);
+                if ($result) {
+                    header('location:index.php?task=report');
+                } else {
+                   $error=1;
+                }   
+            }
+        }     
     }
 ?>
 
@@ -45,7 +70,7 @@
     <div class="container">
         <div class="row">
             <div class="column colum-60 column-offset-20 ">
-            <h1>Project02- CRUD</h1>
+            <h1>Project02-CRUD</h1>
             <p>A sample project to perform CRUD using plan files and PHP</p>
 
             <?php include_once ('inc/templates/nav.php'); ?>
@@ -79,18 +104,45 @@
         <?php if ('add' == $task): ?>
         <div class="row">
             <div class="column colum-60 column-offset-20 ">
-                <form action="index.php?report" method="POST">
+                <form action="index.php?task=add" method="POST">
                     <label for="fname">First Name</label>
-                    <input type="text" name="fname" id="fname">
+                    <input type="text" name="fname" id="fname" value="<?php echo $fname; ?> ">
                     <label for="lname">Last Name</label>
-                    <input type="text" name="lname" id="lname">
-                    <label for="roll">Age</label>
-                    <input type="number" name="roll" id="roll">
+                    <input type="text" name="lname" id="lname" value="<?php echo $lname; ?> ">
+                    <label for="roll">Roll</label>
+                    <input type="number" name="roll" id="roll" value="<?php echo $roll; ?> ">
                     <button type="submit" class="button-primary" name="submit">Save</button>
                 </form>
             </div>
         </div>
         <?php endif; ?>
+
+        <!-- edit form  -->
+        <?php 
+        if ('edit' == $task): 
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+        $student = getStudent($id);
+        if ($student):
+        ?>
+        <div class="row">
+            <div class="column colum-60 column-offset-20 ">
+                <form  method="POST">
+                    <input type="hidden" value="<?php echo $id ?> " name="id">
+                    <label for="fname">First Name</label>
+                    <input type="text" name="fname" id="fname" value="<?php echo $student['fname']; ?> ">
+                    <label for="lname">Last Name</label>
+                    <input type="text" name="lname" id="lname" value="<?php echo $student['lname']; ?> ">
+                    <label for="roll">Roll</label>
+                    <input type="number" name="roll" id="roll" value="<?php echo $student['roll']; ?> ">
+                    <button type="submit" class="button-primary" name="submit">Update</button>
+                </form>
+            </div>
+        </div>
+        <?php 
+        endif;
+    endif; 
+        
+        ?>
     </div>
 </body>
 </html>
