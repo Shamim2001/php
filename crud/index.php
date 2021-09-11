@@ -9,6 +9,7 @@
         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
         if ($id > 0) {
             deleteStudent($id);
+            header('location:index.php?task=report');
         }
     }
 
@@ -96,6 +97,12 @@
         <div class="row">
             <div class="column colum-60 column-offset-20 ">
                 <?php generateReport(); ?>
+                <!-- totall students list call -->
+                <!-- <div>
+                    <pre>
+                        <?php printRow(); ?>
+                    </pre>
+                </div> -->
             </div>
         </div>
         <?php endif; ?>
@@ -144,5 +151,6 @@
         
         ?>
     </div>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>

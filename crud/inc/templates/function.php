@@ -57,7 +57,7 @@ function generateReport() {
                 <tr>
                     <td><?php printf('%s %s', $student['fname'],$student['lname']); ?></td>
                     <td><?php printf('%s', $student['roll']); ?> </td>
-                    <td><?php printf( '<a href="index.php?task=edit&id=%s">Edit</a> | <a href="index.php?task=delete&id=%s">Delete</a>', $student['id'],$student['id']);  ?> </td>
+                    <td><?php printf( '<a href="index.php?task=edit&id=%s">Edit</a> | <a class="delete" href="index.php?task=delete&id=%s">Delete</a>', $student['id'],$student['id']);  ?> </td>
                 </tr>
                 <?
             }
@@ -66,6 +66,8 @@ function generateReport() {
     </table>
     <?php
 }
+
+// =======student add  function code=======
 
 function addStudent($fname, $lname, $roll) {
     $found = false;
@@ -95,7 +97,7 @@ function addStudent($fname, $lname, $roll) {
 
 }
 
-// edit form function
+// ========edit form function===========
 function getStudent($id) {
     $serializedData = file_get_contents(DB_NAME);
     $students = unserialize($serializedData);
@@ -107,7 +109,7 @@ function getStudent($id) {
     return false;
 }
 
-// update function create
+// ========update function create=======
 function updateStudent($id, $fname, $lname, $roll) {
     $found = false;
     $serializedData = file_get_contents(DB_NAME);
@@ -129,7 +131,21 @@ function updateStudent($id, $fname, $lname, $roll) {
     return false;
 }
 
-// delete student function code 
+// ========delete student function code=========
 function deleteStudent($id) {
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
 
+    unset($students[$id-1]);
+    $serializedData = serialize($students);
+        file_put_contents(DB_NAME, $serializedData, LOCK_EX);
+}
+
+
+// =======all students show function code======= 
+function printRow() {
+    $serializedData = file_get_contents(DB_NAME);
+    $students = unserialize($serializedData);
+
+    print_r($students);
 }
