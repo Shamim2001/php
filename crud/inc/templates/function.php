@@ -149,3 +149,7 @@ function printRow() {
 
     print_r($students);
 }
+
+function isAdmin(){
+    return ('admin'==$_SESSION['role']);
+}

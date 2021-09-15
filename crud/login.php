@@ -2,21 +2,70 @@
 session_start([
     'cookie_lifetime'=>300, // 5 min session
 ]);
+
 $error = false;
+
 // session_destroy(); 
-if ( isset($_POST['username']) && isset($_POST['password'])) {
-    if ('admin'== $_POST['username'] && 'a51e47f646375ab6bf5dd2c42d3e6181' == md5($_POST['password'])) {
-        $_SESSION['submit'] =true;
-    } else {
-        $error =true;
-        $_SESSION['submit'] =false;
+
+$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+
+$fp = fopen("./data/users.txt", "r");
+
+if ($username && $password) {
+    $_SESSION['loggedin'] =false;
+    ($_SESSION['user']) == false;
+    ($_SESSION['role']) == false;
+
+    while ( $data = fgetcsv($fp) ) {
+        if ($data[0] == $username && $data[1] == sha1($password) ) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['user'] == $username;
+            $_SESSION['role'] == $data[2];
+            print_r($_SESSION['role']);
+            header('location:index.php');
+        }
+    }
+    if (!$_SESSION['loggedin']) {
+        $error = true;
     }
 }
 
 if(isset($_POST['logout']) ) {
-    $_SESSION['submit'] =false;
+    
     session_destroy();
+    $_SESSION['loggedin'] =false;
+    $_SESSION['user'] == false;
+    $_SESSION['role'] == false;
+    header("location:index.php");
 }
+
+// $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+// $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+// $fp = fopen("./data/users.txt", "r");
+// if ( $username && $password) {
+//     $_SESSION['loggedin'] =false;
+//     $_SESSION['user'] = false;
+//     while ( $data = fgetcsv($fp) ) {
+//         if ( $data[0]== $username && $data[1] == $password) {
+//             $_SESSION['loggedin'] =true;
+//             $_SESSION['user'] = $username;
+//             header('location:index.php');
+//         }
+//     }
+//     if (!$_SESSION['loggedin']) {
+//         $error = true;
+//     }
+// }
+
+
+// if(isset($_GET['logout']) ) {
+//     $_SESSION['loggedin'] =false;
+//     $_SESSION['user'] = false;
+//     session_destroy();
+//     header('location:index.php');
+// }
+
 
 ?>
 
@@ -52,7 +101,7 @@ if(isset($_POST['logout']) ) {
             <div class="column colum-60 column-offset-20 pb-5">
                 <?php
                 // echo md5('rabbit')."<br />";
-                if (true == $_SESSION['submit']) {
+                if (true == $_SESSION['loggedin']) {
                     echo "Hello Admin, Wellcome!";
                 } else {
                     echo "Hello Stranger, log Below";
@@ -68,7 +117,7 @@ if(isset($_POST['logout']) ) {
                 if($error) {
                     echo "<blockquote>Username Or Password did'n Match</blockquote>";
                 }
-                if(false == $_SESSION['submit']): 
+                if(false == $_SESSION['loggedin']): 
                 ?>
                 <form method="POST" style="width:600px; margin-top: 60px;" >
                     <label for="username">Username</label>
