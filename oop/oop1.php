@@ -10,7 +10,8 @@ class Person{
     }
 }
 // Objects
-$p1 = new Person();
+$p1 = new Person('shamim');
+// var_dump($p1); // object check var_dump
 $p1->name = 'shamim';
 
 $p1 ->sayHi();
