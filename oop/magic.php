@@ -2,7 +2,9 @@
 // magic methon --get / --set
 
 class Student{
-    private $name, $age, $class;
+    private $name;
+    private $age;
+    private $class;
 
     function __construct($name='', $age='', $class='')
     {
