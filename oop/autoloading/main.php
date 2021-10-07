@@ -1,11 +1,11 @@
 <?php
 namespace CloudStorage;
-include "autoloader.php";
+require "autoloader.php";
 
 
 use \CloudStorage\Mail\Mailer;
 use \CloudStorage\FileSystem\Scanner;
-use \CloudStorage\FileSystem\Files\Images\Jpeg;
+use \CloudStorage\FileSystem\Files\Images\Jpeg;;
 
 class Main{
     function __construct()
@@ -17,7 +17,7 @@ class Main{
         $scanner->scan();
 
         $jpeg = new Jpeg();
-        echo $jpeg->getDimension();
+       echo $jpeg -> getDimension();
     }
 }
 
