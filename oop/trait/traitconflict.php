@@ -31,7 +31,7 @@ class Aliased_Talker {
         A::otherFunc insteadof B;
         B::otherFunc as talk;
     }
-}
+} 
 
 
 
