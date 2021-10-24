@@ -1,5 +1,6 @@
 {
     "files.autoSave": "afterDelay",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.fontFamily": "Fira code",
     "code-runner.clearPreviousOutput": true,
     "code-runner.saveFileBeforeRun": true,
