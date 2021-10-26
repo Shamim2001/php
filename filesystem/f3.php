@@ -5,9 +5,9 @@ class Dir{
     private $files=[];
     function __construct($path)
     {
-        if (is_readable($path)){
-            $entries = scandir($path);
-            foreach($entries as $entry) {
+    if (is_readable($path)){
+        $entries = scandir($path);
+        foreach($entries as $entry) {
                 if("."!=$entry && ".." != $entry) {
                     if (is_dir($entry)) {
                         array_push($this->directories, $entry);
@@ -15,8 +15,6 @@ class Dir{
                         array_push($this->files, $entry);
                     }
                 }
-
-            
             }
         }
     }
